@@ -12,10 +12,11 @@ generic: the universal flow lives here; the source-specific mechanics live in
 
 ## Step 0 — orient (always)
 
-Read `.wiki/SCHEMA.md` first. Resolve the wiki root from its `Path:` field
-(default `.wiki/`, possibly redirected to e.g. `~/wikis/your-project`) and follow
-its **citation grammar** and **categories**. Do not restate the grammar from
-memory — SCHEMA.md is the canonical spec.
+Read `.wiki/SCHEMA.md` first and resolve the wiki **ROOT** from its `Path:` field — it
+may point outside this project (e.g. `~/wikis/your-project`); **do not assume the wiki is
+`.wiki/` just because the anchor lives there.** Read the canonical spec/grammar and
+**categories** from `ROOT/SCHEMA.md`; `index.md`, `log.md`, and `pages/` live under
+`ROOT/wiki/`, immutable sources under `ROOT/raw/`. Don't restate the grammar from memory.
 
 Then pick a mode:
 - **Mode A — a new source is provided** (code, Confluence, URL, PDF, transcript). Default.

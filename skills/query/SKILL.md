@@ -13,9 +13,11 @@ finite — avoid context rot).
 
 ## The loop
 
-1. **Orient.** Read `.wiki/SCHEMA.md` (resolve the wiki root from its `Path:` field and
-   load the citation grammar), then read `wiki/index.md` — the categorized catalog is
-   your map.
+1. **Orient.** Read `.wiki/SCHEMA.md` and resolve the wiki **ROOT** from its `Path:`
+   field — it may point outside this project (e.g. `~/wikis/project`); **do not assume the
+   wiki is `.wiki/` just because the anchor lives there.** Load the spec/grammar from
+   `ROOT/SCHEMA.md`, then read `ROOT/wiki/index.md` — the categorized catalog is your map.
+   If `.wiki/SCHEMA.md` is missing, there is no wiki here yet; suggest `/wiki-base:init`.
 2. **Find candidates.** `grep`/`glob` the wiki for the question's key terms, entities,
    and slugs. Use the index categories to narrow the search.
 3. **Read just-in-time.** Open ONLY the matching pages. Follow `[[wikilinks]]` one hop

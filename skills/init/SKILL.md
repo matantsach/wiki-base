@@ -36,13 +36,14 @@ Wait for each answer before asking the next; offer the default in brackets.
    - research → `Sources | Entities | Concepts | Analyses`
    - codebase → `Modules | APIs | Decisions | Flows`
 
-## 3. Write the layout
+## 3. Write the layout (at the ROOT)
 
 Generate from `references/schema-template.md` (the canonical conventions + citation
-grammar — do not restate it inline). Create at the resolved root:
+grammar — do not restate it inline). Create at the resolved **ROOT** (the absolute path
+from step 2):
 
 ```
-<root>/
+<ROOT>/
 ├── SCHEMA.md            # instantiated from references/schema-template.md
 ├── raw/                 # immutable sources (LLM never modifies)
 ├── assets/              # downloaded images / PDFs / attachments (+ .gitkeep)
@@ -53,23 +54,42 @@ grammar — do not restate it inline). Create at the resolved root:
     └── pages/           # FLAT, slug-named, no subdirectories
 ```
 
-Fill `SCHEMA.md` placeholders: `Path:` = the **absolute** resolved root; `Domain:`,
-`Categories:`, and `Source types:` from the answers. Seed `index.md` with the chosen
-category headings (empty), and a one-line `overview.md` skeleton (Current
-Understanding / Open Questions / Key Entities-Concepts).
-
-**Redirect breadcrumb (design choice):** when the root is OUTSIDE the project (e.g.
-`~/wikis/...`), still keep an in-project `.wiki/SCHEMA.md` whose `Path:` points at the
-external root — that breadcrumb is how every skill locates the wiki. `raw/`, `assets/`,
-and `wiki/` then live at the external root.
+Fill `SCHEMA.md` placeholders: `Path:` = the **absolute** ROOT; `Domain:`, `Categories:`,
+and `Source types:` from the answers. Seed `index.md` with the chosen category headings
+(empty), and a one-line `overview.md` skeleton (Current Understanding / Open Questions /
+Key Entities-Concepts).
 
 For **codebase** wikis, follow `references/codebase.md` for slug prefixes
 (`mod-`/`api-`/`dec-`/`flow-`), the reader-question index template, and the
 codebase-only frontmatter (`source_paths[]`, `stale`).
 
-## 4. Log it
+## 4. Write the discovery anchor — `.wiki/SCHEMA.md` (ALWAYS)
 
-Append one line to `wiki/log.md`:
+Every skill finds the wiki by reading `.wiki/SCHEMA.md` **in the project where init was
+invoked** and following its `Path:`. That anchor MUST exist in the project after init, in
+both modes — getting this wrong is exactly what makes `query` silently fall back to the
+wrong `.wiki/`:
+
+- **In-project ROOT (default `.wiki/`)** — the ROOT *is* the anchor folder, so the
+  `.wiki/SCHEMA.md` you wrote in step 3 already serves as the anchor. Nothing more to do.
+- **External ROOT (e.g. `~/wikis/<project>`)** — you wrote the full wiki at the ROOT in
+  step 3. Now ALSO write a thin **redirect stub** at the in-project `.wiki/SCHEMA.md`:
+
+  ```
+  # SCHEMA.md — redirect
+  This project's wiki lives at another ROOT. Resolve `Path:` and read its real
+  `SCHEMA.md` there; do not treat this `.wiki/` folder as the wiki.
+
+  - **Path:** /absolute/path/to/external/ROOT
+  ```
+
+  If a demo or older `.wiki/SCHEMA.md` already sits here, **overwrite it** with this stub —
+  a stale anchor pointing at `.wiki/` is the bug where queries ignore your external wiki.
+  Only this stub lives in-project; `raw/`, `assets/`, and `wiki/` live at the ROOT.
+
+## 5. Log it
+
+Append one line to `ROOT/wiki/log.md`:
 
 ```
 ## [YYYY-MM-DD] init | <wiki name>

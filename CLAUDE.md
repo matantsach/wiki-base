@@ -4,10 +4,15 @@
 
 You maintain an **LLM Wiki** — a persistent, compounding markdown knowledge base. Obsidian is the IDE; you are the programmer; the wiki is the codebase. You OWN the `wiki/` layer; the human curates sources and asks questions. Compile knowledge once and keep it current — never re-derive it per query.
 
-## Start here (YOU MUST)
+## Locating the wiki (YOU MUST do this first, every session)
 
-- Read `.wiki/SCHEMA.md` **first** every session, and resolve the wiki root from its `Path:` field. SCHEMA.md is the canonical spec for conventions, categories, and the citation grammar — follow it; do not restate it here.
-- Default root: `.wiki/` inside this project, versioned with the code. Redirect by editing SCHEMA.md `Path:` (e.g. `~/wikis/your-project`). The in-project `.wiki/SCHEMA.md` always stays as the breadcrumb that locates the wiki.
+`.wiki/SCHEMA.md` in the current project is the **discovery anchor** — always present, even when the wiki itself lives elsewhere. To find the wiki:
+
+1. Read `.wiki/SCHEMA.md` and take its **`Path:`** as the wiki **ROOT** (absolute; the literal `.wiki/` means "this in-project folder", i.e. ROOT = `<project>/.wiki`).
+2. Everything is under ROOT: canonical spec/grammar = `ROOT/SCHEMA.md`, catalog = `ROOT/wiki/index.md`, pages = `ROOT/wiki/pages/`, sources = `ROOT/raw/`.
+3. **Never assume the wiki is `.wiki/` just because the anchor lives there.** If `Path:` points outside the project, query/ingest/lint *that* ROOT. If `.wiki/SCHEMA.md` is missing, this project has no wiki yet → run `/wiki-base:init`.
+
+Default ROOT is `.wiki/` inside this project, versioned with the code. Redirect to a central dir by setting `Path:` (e.g. `/Users/you/wikis/project`); the in-project `.wiki/SCHEMA.md` stays behind as the anchor/redirect. SCHEMA.md is the canonical spec for conventions, categories, and citation grammar — follow it; don't restate it here.
 
 ## Three layers
 

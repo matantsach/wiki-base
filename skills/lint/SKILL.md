@@ -13,8 +13,10 @@ a fix, propose it as a diff and apply it only when the user says so.
 
 ## Before you start
 
-- Read `.wiki/SCHEMA.md`; resolve the wiki root from its `Path:` field. The conventions and the
-  citation grammar you check against live there — follow them, don't assume.
+- Read `.wiki/SCHEMA.md` and resolve the wiki **ROOT** from its `Path:` field — it may point
+  outside this project; **don't assume the wiki is `.wiki/` just because the anchor lives there.**
+  Read the conventions + citation grammar from `ROOT/SCHEMA.md`; the wiki you audit is
+  `ROOT/wiki/` (index/log/overview/pages), sources `ROOT/raw/`.
 - Pick the mode: **no page named → Mode A** (whole-wiki health). **A specific page named → Mode B**
   (citation audit).
 - Work like every other skill: read `index.md` first, then grep/glob for evidence and open pages
