@@ -10,10 +10,10 @@ This is faithful to Andrej Karpathy's [LLM Wiki gist][gist] ("just a git repo of
 
 ## Install
 
-**As a Claude Code plugin** (replace `OWNER` with the GitHub owner hosting this repo):
+**As a Claude Code plugin** (if you fork it, swap `matantsach` for your own GitHub owner):
 
 ```
-/plugin marketplace add OWNER/wiki-base
+/plugin marketplace add matantsach/wiki-base
 /plugin install wiki-base@wiki-base
 ```
 
@@ -22,7 +22,7 @@ The install string is `PLUGIN@MARKETPLACE`; both happen to be `wiki-base` here f
 **As a clone-and-go starter** (the same repo *is* a starter wiki):
 
 ```
-git clone https://github.com/OWNER/wiki-base
+git clone https://github.com/matantsach/wiki-base
 # open the folder in Claude Code, then:
 /wiki-base:init        # bootstrap a wiki for your project
 ```
