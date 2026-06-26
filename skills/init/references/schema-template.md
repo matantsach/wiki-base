@@ -17,11 +17,12 @@ citation grammar, so any agent can maintain the wiki correctly even without the 
 ## Configuration
 
 - **Path:** `{{WIKI_ROOT}}`
-  <!-- The redirect knob. Absolute path to the wiki ROOT. Default: this in-project `.wiki/`.
-       To use a central/external wiki (e.g. `~/wikis/your-project`), set this to that
-       absolute path; raw/, assets/, and wiki/ then live there. In that case the in-project
-       `.wiki/SCHEMA.md` is a thin redirect stub (just this Path:) — every skill reads it to
-       locate the ROOT; it is NOT the wiki itself. See init step 4. -->
+  <!-- The redirect knob. A PORTABLE path to the wiki ROOT (SCHEMA.md is committed — don't
+       hardcode a machine-specific absolute path). Default: `.wiki/`, the literal relative
+       in-project root, which resolves on every clone. For a central/external wiki use a
+       `~/`-relative path (e.g. `~/wikis/your-project`); raw/, assets/, and wiki/ then live
+       there, and the in-project `.wiki/SCHEMA.md` becomes a thin redirect stub (just this
+       Path:), NOT the wiki itself. See init step 4. -->
 - **Domain:** `{{DOMAIN}}`  <!-- research | codebase -->
 - **Categories:** `{{CATEGORIES}}`
   <!-- index.md groups pages under these headings.

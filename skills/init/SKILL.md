@@ -26,8 +26,11 @@ reads first. Keep it pure markdown: no vector DB, no embeddings, no server.
 
 Wait for each answer before asking the next; offer the default in brackets.
 
-1. **Wiki root path** — `[.wiki/]` in this project (versioned with the code), or a
-   central directory such as `~/wikis/your-project`. Resolve to an absolute path.
+1. **Wiki root path** — `[.wiki/]` in this project (versioned with the code; keep this the
+   **relative** `.wiki/` so it stays portable across clones and machines), or a central
+   directory such as `~/wikis/your-project` (prefer a `~/`-relative path over a
+   machine-specific absolute one). Never write a `/Users/...`-style absolute path for an
+   in-project wiki — `SCHEMA.md` is committed, so it must resolve on every clone.
 2. **Domain** — `research` or `codebase` (sets the default categories and which
    reference guide applies).
 3. **Source types** — what you will ingest (e.g. code, Confluence, URLs, PDFs,
@@ -39,8 +42,8 @@ Wait for each answer before asking the next; offer the default in brackets.
 ## 3. Write the layout (at the ROOT)
 
 Generate from `references/schema-template.md` (the canonical conventions + citation
-grammar — do not restate it inline). Create at the resolved **ROOT** (the absolute path
-from step 2):
+grammar — do not restate it inline). Create the directories at the **ROOT** chosen in step 2
+(for the default that is this repo's `.wiki/`; for external it is the `~/wikis/<project>` dir):
 
 ```
 <ROOT>/
@@ -54,10 +57,15 @@ from step 2):
     └── pages/           # FLAT, slug-named, no subdirectories
 ```
 
-Fill `SCHEMA.md` placeholders: `Path:` = the **absolute** ROOT; `Domain:`, `Categories:`,
-and `Source types:` from the answers. Seed `index.md` with the chosen category headings
-(empty), and a one-line `overview.md` skeleton (Current Understanding / Open Questions /
-Key Entities-Concepts).
+Fill `SCHEMA.md` placeholders: set `Path:` to a **PORTABLE** root (SCHEMA.md is committed —
+never hardcode a machine-specific path):
+- in-project → `Path: .wiki/` (the literal relative default; resolves to this repo's `.wiki/`
+  on every clone — do NOT write `/Users/<you>/.../.wiki`).
+- external → `Path: ~/wikis/<project>` (`~/`-relative) when under home; a bare absolute path
+  only as a last resort, and warn the user it won't be portable to other machines.
+Then `Domain:`, `Categories:`, and `Source types:` from the answers. Seed `index.md` with the
+chosen category headings (empty), and a one-line `overview.md` skeleton (Current Understanding
+/ Open Questions / Key Entities-Concepts).
 
 For **codebase** wikis, follow `references/codebase.md` for slug prefixes
 (`mod-`/`api-`/`dec-`/`flow-`), the reader-question index template, and the
@@ -80,17 +88,18 @@ wrong `.wiki/`:
   This project's wiki lives at another ROOT. Resolve `Path:` and read its real
   `SCHEMA.md` there; do not treat this `.wiki/` folder as the wiki.
 
-  - **Path:** /absolute/path/to/external/ROOT
+  - **Path:** ~/wikis/<project>     # ~/-relative if under home; absolute only as a last resort
   ```
 
   If a demo or older `.wiki/SCHEMA.md` already sits here, **overwrite it** with this stub —
   a stale anchor pointing at `.wiki/` is the bug where queries ignore your external wiki.
   Only this stub lives in-project; `raw/`, `assets/`, and `wiki/` live at the ROOT.
 
-## 5. Make the wiki discoverable & check-in-ready (offer)
+## 5. Make the wiki discoverable & check-in-ready (ask the user about each)
 
-A wiki only helps if agents and teammates know it exists. After writing it, offer these
-(each opt-in; default in brackets):
+A wiki only helps if agents and teammates know it exists. After writing it, **explicitly
+present all three options below** — name each one and its default; do NOT silently skip the
+skills-vendoring offer just because its default is off. Apply the user's choices.
 
 ### a. Ambient pointer — so Claude consults the wiki unprompted  `[yes]`
 Without it, Claude only uses the wiki when you run `/wiki-base:query`. Write a **managed
@@ -122,11 +131,14 @@ or sensitive material, offer to add to the repo `.gitignore`: `.wiki/assets/*` t
 `.wiki/SCHEMA.md` redirect stub is.)
 
 ### c. Vendor skills for plugin-less teammates  `[no — rely on the plugin]`
-If collaborators won't install the wiki-base plugin, offer to copy the four skills into the
-repo's `.claude/skills/` so a clone is fully self-contained. Trade-off: vendored skills are
-invoked **without** the `wiki-base:` prefix (`/init`, `/ingest`, …) and can drift from the
-plugin. Default off — the plugin already provides the skills in every project, and the wiki
-is readable markdown even with no skills at all.
+**Ask directly:** "Will everyone who clones this repo have the wiki-base plugin installed?"
+If not, offer to copy the four skills (`init`, `ingest`, `query`, `lint`) from the plugin
+into the repo's `.claude/skills/<name>/SKILL.md` (with their `references/`) so a clone is
+fully self-contained, then `git add .claude/skills`. Resolve the plugin's skills via
+`${CLAUDE_PLUGIN_ROOT}/skills/`. Trade-off: vendored skills are invoked **without** the
+`wiki-base:` prefix (`/init`, `/ingest`, …) and can drift from the plugin as it updates.
+Default off — the plugin already provides the skills in every project, and the wiki is
+readable markdown even with no skills at all.
 
 ## 6. Log it
 

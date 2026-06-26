@@ -8,7 +8,7 @@ You maintain an **LLM Wiki** — a persistent, compounding markdown knowledge ba
 
 `.wiki/SCHEMA.md` in the current project is the **discovery anchor** — always present, even when the wiki itself lives elsewhere. To find the wiki:
 
-1. Read `.wiki/SCHEMA.md` and take its **`Path:`** as the wiki **ROOT** (absolute; the literal `.wiki/` means "this in-project folder", i.e. ROOT = `<project>/.wiki`).
+1. Read `.wiki/SCHEMA.md` and take its **`Path:`** as the wiki **ROOT**. The literal `.wiki/` (the portable, committed default) means "this in-project folder" → ROOT = `<project>/.wiki`. A `~/…` or absolute path means an external ROOT. (`Path:` is committed, so the in-project default stays relative — never a machine-specific absolute path.)
 2. Everything is under ROOT: canonical spec/grammar = `ROOT/SCHEMA.md`, catalog = `ROOT/wiki/index.md`, pages = `ROOT/wiki/pages/`, sources = `ROOT/raw/`.
 3. **Never assume the wiki is `.wiki/` just because the anchor lives there.** If `Path:` points outside the project, query/ingest/lint *that* ROOT. If `.wiki/SCHEMA.md` is missing, this project has no wiki yet → run `/wiki-base:init`.
 
