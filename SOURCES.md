@@ -92,7 +92,11 @@ No generic blog / SEO posts are used. Each entry gives the title, URL, and what 
   notes); the `@path` import caveat (imports don't save tokens); the project-vs-user memory
   hierarchy; AGENTS.md interop (the symlink and its documented direction-reversal note); the
   conflicting-instructions failure mode → de-duping conventions into `.wiki/SCHEMA.md`; and the
-  `.gitignore` of `CLAUDE.local.md`.
+  `.gitignore` of `CLAUDE.local.md`. Also backs the `init` **discoverability** step: plugins do
+  NOT contribute to the CLAUDE.md memory hierarchy (so init writes a *project-level* pointer, not
+  a plugin CLAUDE.md), Claude Code reads `CLAUDE.md` not `AGENTS.md` (mirror only if AGENTS.md
+  exists), and a no-`paths` `.claude/rules/` file loads at the same priority as `CLAUDE.md` (so
+  init writes ONE pointer, never both).
 
 ### Effective context engineering for AI agents (Anthropic Engineering)
 - **URL:** <https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents>

@@ -72,6 +72,14 @@ The wiki defaults to **`.wiki/` inside your project**, versioned alongside the c
 
 **The shipped `.wiki/` is a throwaway demo.** Clear it before real use: `rm -rf .wiki` then `/wiki-base:init`, or just run `/wiki-base:init` — it detects the demo `SCHEMA.md` and offers to reset.
 
+## Make the wiki discoverable in your projects
+
+When you `/wiki-base:init` a wiki in a repo, init offers to drop a small **managed pointer** into that repo's `CLAUDE.md` (between `<!-- wiki-base:begin -->` / `<!-- wiki-base:end -->` markers — created if absent, never clobbering your content) so Claude **proactively consults the wiki** instead of waiting for an explicit `/wiki-base:query`. It mirrors the block to `AGENTS.md` only if you already use one (other agents read `AGENTS.md`, not `CLAUDE.md`). It deliberately does *not* also write a `.claude/rules/` copy — a no-`paths` rule loads at the same priority as `CLAUDE.md`, so two copies would double-load the same text.
+
+**Check it in.** In-project wikis are "just a git repo of markdown files": `git add .wiki && commit` and a clone carries the wiki — and the committed pointer — for free, with PR-reviewable knowledge diffs. If `raw/`/`assets/` would carry large binaries or sensitive material, init can add `.wiki/assets/*` to your `.gitignore`. (A central/external wiki isn't checked in — only the `.wiki/SCHEMA.md` redirect stub is.)
+
+**Teammates without the plugin** can still read the wiki — it's plain markdown. For the full skill workflow without installing the plugin, init can vendor the four skills into `.claude/skills/` (opt-in; they lose the `wiki-base:` prefix and can drift from the plugin).
+
 ## Scope: lean by design
 
 No vector database, no embeddings, no RAG pipeline, no server. Retrieval is `index.md` + agentic `grep`/`glob`/`read`, loaded just-in-time. This works comfortably to **~100 sources / hundreds of pages**. Anthropic's context-engineering guidance frames this as a hybrid — agentic, just-in-time context *augments* embedding-based retrieval, and on-demand tool/data loading can cut token use by up to **98.7%** (150,000 → 2,000 tokens in Anthropic's [code-execution-with-mcp][cem] example). See [DESIGN.md](./DESIGN.md) for the full treatment ([context-engineering][ctx]).

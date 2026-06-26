@@ -87,7 +87,48 @@ wrong `.wiki/`:
   a stale anchor pointing at `.wiki/` is the bug where queries ignore your external wiki.
   Only this stub lives in-project; `raw/`, `assets/`, and `wiki/` live at the ROOT.
 
-## 5. Log it
+## 5. Make the wiki discoverable & check-in-ready (offer)
+
+A wiki only helps if agents and teammates know it exists. After writing it, offer these
+(each opt-in; default in brackets):
+
+### a. Ambient pointer — so Claude consults the wiki unprompted  `[yes]`
+Without it, Claude only uses the wiki when you run `/wiki-base:query`. Write a **managed
+block** into the repo's root `CLAUDE.md` (the project memory Claude Code loads every
+session). Use the markers so it's idempotent and never clobbers existing content:
+
+  ```
+  <!-- wiki-base:begin — managed by /wiki-base:init; edit outside these markers -->
+  ## Project knowledge base (wiki-base)
+  This repo has a compile-once knowledge base (Karpathy-style LLM Wiki). Find it via
+  `.wiki/SCHEMA.md` → its `Path:` → the wiki ROOT, and **read `<ROOT>/wiki/index.md`
+  first.** Plain markdown, readable by any agent. **Consult it before answering questions
+  about this project, and keep it current as the code/docs change.** With the wiki-base
+  plugin: `/wiki-base:query` · `/wiki-base:ingest` · `/wiki-base:lint`.
+  <!-- wiki-base:end -->
+  ```
+
+  If `CLAUDE.md` exists, replace any existing `wiki-base:begin..end` block in place (else
+  append); if absent, create it with just this block. Mirror the block to `AGENTS.md`
+  **only if that file already exists** (other agents read AGENTS.md, not CLAUDE.md — don't
+  create one unprompted). Do NOT also drop a `.claude/rules/` copy: a no-`paths` rule loads
+  at the same priority as CLAUDE.md, so a second copy just double-loads the same text.
+
+### b. Check-in readiness  `[commit it]`
+In-project wikis are meant to be committed — a clone then carries the wiki for free. Tell
+the user they can `git add .wiki && commit`. If `raw/`/`assets/` would hold large binaries
+or sensitive material, offer to add to the repo `.gitignore`: `.wiki/assets/*` then
+`!.wiki/assets/.gitkeep`. (External-ROOT wikis aren't checked in — only the
+`.wiki/SCHEMA.md` redirect stub is.)
+
+### c. Vendor skills for plugin-less teammates  `[no — rely on the plugin]`
+If collaborators won't install the wiki-base plugin, offer to copy the four skills into the
+repo's `.claude/skills/` so a clone is fully self-contained. Trade-off: vendored skills are
+invoked **without** the `wiki-base:` prefix (`/init`, `/ingest`, …) and can drift from the
+plugin. Default off — the plugin already provides the skills in every project, and the wiki
+is readable markdown even with no skills at all.
+
+## 6. Log it
 
 Append one line to `ROOT/wiki/log.md`:
 
