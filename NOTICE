@@ -1,0 +1,24 @@
+wiki-base
+Copyright (c) 2026 Matan Tsach
+Licensed under the MIT License (see LICENSE).
+
+wiki-base is an independent baseline (not a fork), built on publicly shared ideas
+and prior art. The MIT License applies to the original files in this repository.
+Attribution to the work it builds on:
+
+- The "LLM Wiki" idea — compile a persistent, compounding markdown knowledge base
+  once and keep it current, instead of re-deriving knowledge per query — is due to
+  Andrej Karpathy.
+  https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+
+- The skill set, directory schema, and citation grammar adopt structure from
+  kfchou/wiki-skills (MIT, Copyright (c) 2026 kfchou).
+  https://github.com/kfchou/wiki-skills
+
+- The git-checkpoint codebase-sync pattern adapts ideas from Yiyi Sun / yysun
+  (git-wiki, MIT, Copyright (c) 2025 Yiyi Sun).
+  https://github.com/yysun/awesome-agent-world
+
+These upstream projects are MIT-licensed; this repository does not vendor their code,
+only their publicly documented patterns. Full source-by-source provenance for every
+design decision is in SOURCES.md.

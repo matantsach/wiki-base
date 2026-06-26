@@ -1,0 +1,15 @@
+{
+  "name": "wiki-base",
+  "owner": {
+    "name": "Matan Tsach",
+    "email": "matan.tsach@gmail.com"
+  },
+  "description": "Karpathy-style LLM Wiki for Claude Code.",
+  "plugins": [
+    {
+      "name": "wiki-base",
+      "source": "./",
+      "description": "Ingest code, Confluence, URLs, PDFs, and transcripts into a cited, self-maintaining markdown wiki. Pure markdown + agentic search, no RAG."
+    }
+  ]
+}

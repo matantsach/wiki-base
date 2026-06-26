@@ -1,0 +1,26 @@
+{
+  "name": "wiki-base",
+  "displayName": "Wiki Base",
+  "description": "Karpathy-style LLM Wiki: ingest code, Confluence, URLs, PDFs, transcripts; query with citations. No RAG/vectors.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matan Tsach",
+    "email": "matan.tsach@gmail.com",
+    "url": "https://github.com/matantsach"
+  },
+  "homepage": "https://github.com/matantsach/wiki-base",
+  "repository": "https://github.com/matantsach/wiki-base",
+  "license": "MIT",
+  "keywords": [
+    "wiki",
+    "knowledge-base",
+    "documentation",
+    "research",
+    "notes",
+    "zettelkasten",
+    "pkm",
+    "citations",
+    "karpathy",
+    "codebase"
+  ]
+}
